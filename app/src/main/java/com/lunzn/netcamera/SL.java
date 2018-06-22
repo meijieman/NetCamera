@@ -11,6 +11,10 @@ public class SL {
 
     private static final String TAG = "tag_sl";
 
+    public static void v(Object obj) {
+        Log.v(TAG, obj == null ? null : obj.toString());
+    }
+
     public static void i(Object obj) {
         Log.i(TAG, obj == null ? null : obj.toString());
     }

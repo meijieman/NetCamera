@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -156,9 +157,14 @@ public class MainActivity extends AppCompatActivity {
                 // 设置预览照片的大小
                 parameters.setPreviewSize(screenWidth, screenHeight);
                 // 设置预览照片时每秒显示多少帧的最小值和最大值
+                List<int[]> supportedPreviewFpsRange = parameters.getSupportedPreviewFpsRange();
+                SL.i("supportedPreviewFpsRange " + supportedPreviewFpsRange);
+                List<Integer> supportedPreviewFormats = parameters.getSupportedPreviewFormats();
+                SL.i("supportedPreviewFormats " + supportedPreviewFormats);
                 parameters.setPreviewFpsRange(4, 10);
                 // 设置图片格式
                 parameters.setPictureFormat(ImageFormat.JPEG);
+//                parameters.setPreviewFormat(ImageFormat.JPEG);
                 // 设置JPG照片的质量
                 parameters.set("jpeg-quality", 85);
                 // 设置照片的大小
@@ -171,6 +177,14 @@ public class MainActivity extends AppCompatActivity {
 
                 // 通过SurfaceView显示取景画面
                 mCamera.setPreviewDisplay(surfaceHolder);
+
+                mCamera.setPreviewCallback(new Camera.PreviewCallback() {
+                    @Override
+                    public void onPreviewFrame(byte[] data, Camera camera) {
+                        SL.v("onPreviewFrame " + data.length);
+                        // YuvImage
+                    }
+                });
                 // 开始预览
                 mCamera.startPreview();
             } catch(Exception e) {
